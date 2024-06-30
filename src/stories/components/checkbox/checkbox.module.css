@@ -1,0 +1,37 @@
+@import "@radix-ui/colors/mauve.css";
+@import "@radix-ui/colors/blue.css";
+
+.container {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.label {
+  color: var(--mauve-9);
+  font-size: 14px;
+  font-weight: 600;
+  user-select: none;
+}
+
+.checkboxRoot {
+  background-color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px var(--black-a7);
+}
+.checkboxRoot:hover {
+  background-color: var(--blue-3);
+}
+.checkboxRoot:focus {
+  box-shadow: 0 0 0 2px black;
+}
+
+.checkboxIndicator {
+  color: var(--blue-11);
+  height: 15px;
+}
