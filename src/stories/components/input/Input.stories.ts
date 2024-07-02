@@ -21,8 +21,14 @@ export const Small: Story = {
 
 export const Medium: Story = {
   args: {
-    size: "medium",
     placeholder: "default",
+  },
+};
+
+export const Disable: Story = {
+  args: {
+    placeholder: "disable",
+    disabled: true,
   },
 };
 
