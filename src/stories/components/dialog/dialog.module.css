@@ -1,0 +1,103 @@
+@import "@radix-ui/colors/black-alpha.css";
+@import "@radix-ui/colors/mauve.css";
+
+.dialogOverlay {
+  background-color: var(--black-a6);
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-height: 85vh;
+  padding: 4px;
+  border-radius: 4px;
+  transform: translate(-50%, -50%);
+  background-color: #268eff;
+  border: 1px solid #268eff;
+  box-shadow:
+    hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dialogContent-medium {
+  min-width: 600px;
+}
+.dialogContent-small {
+  min-width: 400px;
+}
+.dialogContent-large {
+  min-width: 900px;
+}
+
+.dialogHeader {
+  position: relative;
+  height: 40px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dialogCloseIcon {
+  font-family: inherit;
+  border-radius: 100%;
+  height: 25px;
+  width: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  right: 5px;
+  color: white;
+}
+
+.dialogTitle {
+  margin: 0;
+  font-weight: 700;
+  font-size: 13px;
+  color: white;
+}
+
+.dialogChildren {
+  min-height: 300px;
+  padding: 15px;
+  background-color: white;
+}
+
+.dialogActions {
+  align-items: center;
+  display: flex;
+  height: 60px;
+  justify-content: center;
+  padding-top: 2px;
+  width: 100%;
+  background-color: #f0f4f6;
+  box-shadow: inset 0 1px 0 #dfe6e8;
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

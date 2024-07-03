@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, PropsWithChildren } from "react";
 import styles from "./button.module.css";
 import classNames from "classnames";
 
@@ -7,7 +7,6 @@ const cx = classNames.bind(styles);
 type ButtonProps = {
   backgroundColor?: string;
   size?: "small" | "medium" | "large";
-  label: string;
   onClick?: () => void;
   variant?: "primary" | "secondary" | "warning";
   style?: CSSProperties;
@@ -19,10 +18,10 @@ type ButtonProps = {
 export const Button = ({
   size = "medium",
   style,
-  label,
   variant = "primary",
+  children,
   ...props
-}: ButtonProps) => {
+}: PropsWithChildren<ButtonProps>) => {
   return (
     <button
       type="button"
@@ -34,7 +33,7 @@ export const Button = ({
       style={style}
       {...props}
     >
-      {label}
+      {children}
     </button>
   );
 };
