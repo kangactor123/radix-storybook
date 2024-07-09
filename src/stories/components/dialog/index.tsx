@@ -2,7 +2,7 @@ import * as RadixDialog from "@radix-ui/react-dialog";
 
 import styles from "./dialog.module.css";
 import classNames from "classnames/bind";
-import { Button } from "../button/Button";
+import { Button } from "../button";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { ReactNode } from "react";
 
@@ -45,6 +45,7 @@ export const Dialog = (props: DialogProps) => {
       open={isOpen}
       defaultOpen={defaultOpen}
       onOpenChange={onOpenChange}
+      data-testid="modal"
     >
       <RadixDialog.Portal>
         <RadixDialog.Overlay className={styles.dialogOverlay}>

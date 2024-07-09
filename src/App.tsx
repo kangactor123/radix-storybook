@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button } from "./stories/components/button/Button";
-import { Dialog } from "./stories/components/dialog/Dialog";
+import { Button } from "./stories/components/button";
+import { Dialog } from "./stories/components/dialog";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
