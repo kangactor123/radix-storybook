@@ -24,6 +24,7 @@ export const Button = ({
 }: PropsWithChildren<ButtonProps>) => {
   return (
     <button
+      data-testid="button"
       type="button"
       className={cx([
         styles["storybook-button"],
