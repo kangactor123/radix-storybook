@@ -1,87 +1,103 @@
 import styles from "./select.module.css";
 import * as RadixSelect from "@radix-ui/react-select";
 import classnames from "classnames";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from "@radix-ui/react-icons";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { PropsWithChildren, ReactNode } from "react";
 
 const cx = classnames.bind(styles);
 
+type SeperatorPosition = "top" | "bottom";
 type SelectItem = {
-  label?: string;
-  hasSeparator?: boolean;
-} & RadixSelect.SelectItemProps;
+  label: ReactNode;
+  title?: ReactNode;
+  hasSepeartor?: false | SeperatorPosition;
+  values?: string[];
+} & Omit<RadixSelect.SelectItemProps, "label" | "textValue">;
 
 type SelectProps = {
   selectItems: SelectItem[];
   selectRootProps: RadixSelect.SelectProps;
   selectContentProps?: RadixSelect.SelectContentProps;
   placeholder?: string;
+  isLoading?: boolean;
+};
+
+const {
+  Root,
+  Trigger,
+  Value,
+  Icon,
+  Portal,
+  Content,
+  Viewport,
+  Group,
+  Label,
+  Item,
+  ItemText,
+  SelectSeparator,
+} = RadixSelect;
+
+const SelectWrapper = ({
+  hasSepartor,
+  children,
+}: PropsWithChildren<{
+  hasSepartor: false | SeperatorPosition;
+}>) => {
+  return typeof hasSepartor === "string" ? (
+    <>
+      {hasSepartor === "top" && (
+        <SelectSeparator className={styles.selectSeparator} />
+      )}
+      {children}
+      {hasSepartor === "bottom" && (
+        <SelectSeparator className={styles.selectSeparator} />
+      )}
+    </>
+  ) : (
+    <>{children}</>
+  );
 };
 
 const SelectItem = (props: SelectItem) => {
+  const { title, value, disabled, label, hasSepeartor = false } = props;
   return (
-    <>
-      {props?.label && (
-        <RadixSelect.Label className={styles.selectLabel}>
-          {props.label}
-        </RadixSelect.Label>
-      )}
-      <RadixSelect.Item
-        value={props.value}
-        disabled={props.disabled}
-        className={styles.selectItem}
-      >
-        <RadixSelect.ItemText>{props.textValue}</RadixSelect.ItemText>
-        <RadixSelect.SelectItemIndicator className={styles.selectItemIndicator}>
-          <CheckIcon />
-        </RadixSelect.SelectItemIndicator>
-      </RadixSelect.Item>
-      {props?.hasSeparator && (
-        <RadixSelect.SelectSeparator className={styles.selectSeparator} />
-      )}
-    </>
+    <SelectWrapper hasSepartor={hasSepeartor}>
+      {title ? <Label className={styles.selectLabel}>{title}</Label> : null}
+      <Item value={value} disabled={disabled} className={styles.selectItem}>
+        <ItemText>{label}</ItemText>
+      </Item>
+    </SelectWrapper>
   );
 };
 
 export const Select = (props: SelectProps) => {
   return (
-    <RadixSelect.Root {...props.selectRootProps}>
-      <RadixSelect.Trigger className={cx(styles.selectTrigger)}>
-        <RadixSelect.Value placeholder={props.placeholder}>
+    <Root {...props.selectRootProps}>
+      <Trigger className={cx(styles.selectTrigger)}>
+        <Value placeholder={props.placeholder}>
           {props.selectRootProps.value}
-        </RadixSelect.Value>
-        <RadixSelect.Icon className={styles.selectIcon}>
+        </Value>
+        <Icon className={styles.selectIcon}>
           <ChevronDownIcon />
-        </RadixSelect.Icon>
-      </RadixSelect.Trigger>
-      <RadixSelect.Portal>
-        <RadixSelect.Content
+        </Icon>
+      </Trigger>
+      <Portal>
+        <Content
           {...props.selectContentProps}
           className={cx(
             styles.selectContent,
             props.selectContentProps?.className
           )}
         >
-          <RadixSelect.ScrollUpButton className={styles.selectScrollButton}>
-            <ChevronUpIcon />
-          </RadixSelect.ScrollUpButton>
-          <RadixSelect.ScrollDownButton className={styles.selectScrollButton}>
-            <ChevronDownIcon />
-          </RadixSelect.ScrollDownButton>
-          <RadixSelect.Viewport className={styles.selectViewport}>
-            {props.selectItems.map((item) => {
-              return (
-                <RadixSelect.Group>
-                  <SelectItem {...item} />
-                </RadixSelect.Group>
-              );
-            })}
-          </RadixSelect.Viewport>
-        </RadixSelect.Content>
-      </RadixSelect.Portal>
-    </RadixSelect.Root>
+          <Viewport className={styles.selectViewport}>
+            {props.selectItems.map((item) => (
+              <Group key={item.value}>
+                <SelectItem {...item} />
+              </Group>
+            ))}
+          </Viewport>
+        </Content>
+      </Portal>
+    </Root>
   );
 };
