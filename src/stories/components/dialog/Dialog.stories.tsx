@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Dialog } from ".";
 import { useState } from "react";
-import { Button } from "../button";
 import { userEvent, within } from "@storybook/test";
 
 const meta = {
@@ -25,7 +24,7 @@ export const BasicDialog: Story = {
       };
       return (
         <div style={{ margin: "3em" }}>
-          <Button onClick={() => setIsOpen((prev) => !prev)}>Click</Button>
+          <button onClick={() => setIsOpen((prev) => !prev)}>Click</button>
           {story({
             args: {
               isOpen,
