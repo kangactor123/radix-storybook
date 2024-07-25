@@ -1,0 +1,15 @@
+.tableSubComponentContainer {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.loadingBox {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   padding: 10px 20px;
+   border-radius: 3px;
+   box-shadow: 0 1px 4px 1px rgba(186, 191, 199, 0.4);
+}
