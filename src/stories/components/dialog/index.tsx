@@ -2,7 +2,6 @@ import * as RadixDialog from "@radix-ui/react-dialog";
 
 import styles from "./dialog.module.css";
 import classNames from "classnames/bind";
-import { Button } from "../button";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { ReactNode } from "react";
 
@@ -72,7 +71,7 @@ export const Dialog = (props: DialogProps) => {
             <div className={styles.dialogChildren}>{children}</div>
             {action ? (
               <div className={cx(styles.dialogActions)}>
-                <Button onClick={action}>{buttonTitle}</Button>
+                <button onClick={action}>{buttonTitle}</button>
               </div>
             ) : null}
           </RadixDialog.Content>
