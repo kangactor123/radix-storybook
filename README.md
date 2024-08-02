@@ -32,7 +32,7 @@ yarn storybook
 ## 구현된 컴포넌트
 현재 구현된 Radix UI 컴포넌트는 다음과 같습니다.
 
-- Select
+- SingleSelect
 - MultiSelect
 - Checkbox
 - Switch
