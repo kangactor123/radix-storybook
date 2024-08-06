@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -44,8 +44,6 @@ function Table<T>(props: TableProps<T>) {
   } = props;
   const isEmptyTable = data.length === 0;
   const bodyRef = useRef<HTMLDivElement | null>(null);
-
-  const [hasScroll, setHasScroll] = useState(false);
 
   const table = useReactTable({
     data,
@@ -106,15 +104,14 @@ function Table<T>(props: TableProps<T>) {
   const rows = getRowModel().rows;
 
   const rowVirtualizer = useVirtualizer({
+    overscan: 5,
     count: getRowModel().rows.length,
     estimateSize: () => 30,
     getScrollElement: () => bodyRef.current,
     measureElement:
-      typeof window !== "undefined" &&
-      navigator.userAgent.indexOf("Firefox") === -1
+      typeof window !== "undefined" && !navigator.userAgent.includes("Firefox")
         ? (element) => element.getBoundingClientRect().height
         : undefined,
-    overscan: 5,
   });
 
   const onChangePageSize = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -138,113 +135,94 @@ function Table<T>(props: TableProps<T>) {
     eventHandler(event);
   };
 
-  useEffect(() => {
-    // Tracking Table Body Height
-    // Cause of Setting Table Header Container Size
-    const element = bodyRef.current;
-    if (!element) return;
-
-    const updateHeight = () => {
-      const scrollHeight = element.scrollHeight;
-      const clientHeight = element.clientHeight;
-      const hasScroll = scrollHeight > clientHeight;
-      setHasScroll(hasScroll);
-    };
-
-    const resizeObserver = new ResizeObserver(updateHeight);
-    resizeObserver.observe(element);
-
-    return () => resizeObserver.disconnect();
-  }, []);
-
   return (
     <div className={styles.tableContainer}>
-      <div className={styles.tableHeaderViewport}>
-        <div
-          className={styles.tableHeaderContainer}
-          style={{ width: `calc(100% - ${hasScroll ? 7 : 0}px)` }}
-        >
-          {getHeaderGroups().map((headerGroup) => (
-            <div key={headerGroup.id} className={styles.headerGroup}>
-              {headerGroup.headers.map((header) => (
-                <div
-                  key={header.id}
-                  className={cx(styles.headerCell, styles.tableCell)}
-                  style={{ width: header.getSize() }}
-                >
-                  <span
-                    onClick={header.column.getToggleSortingHandler()}
-                    data-testid={`header-col-label-${header.index}`}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </span>
-                  {header.column.getIsSorted() ? (
-                    <span
-                      onClick={header.column.getToggleSortingHandler()}
-                      className={cx(styles.sortIcon, {
-                        sortAsc: header.column.getIsSorted() === "asc",
-                      })}
-                    />
-                  ) : null}
+      <div className={styles.tableScrollContainer}>
+        <div className={styles.tableHeaderViewport}>
+          <div className={styles.tableHeaderContainer}>
+            {getHeaderGroups().map((headerGroup) => (
+              <div key={headerGroup.id} className={styles.headerGroup}>
+                {headerGroup.headers.map((header) => (
                   <div
-                    className={styles.resizer}
-                    onMouseDown={header.getResizeHandler()}
-                    onTouchStart={header.getResizeHandler()}
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      <div
-        ref={bodyRef}
-        className={cx(styles.tableBodyViewport, styles.virtualizedTableBody)}
-      >
-        {isLoading ? (
-          <TableLoading message={loadingMessage} />
-        ) : isEmptyTable ? (
-          <TableEmpty message={emptyMessage} />
-        ) : (
-          <div className={styles.tableBody}>
-            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-              const row = rows[virtualRow.index] as Row<T>;
-              return (
-                <div
-                  key={row.id}
-                  data-testid={`row-${row.id}`}
-                  data-index={virtualRow.index}
-                  ref={(node) => rowVirtualizer.measureElement(node)}
-                  onClick={onSelectChange(row)}
-                  className={cx(styles.tableRow, {
-                    tableRowSelected: row.getIsSelected(),
-                  })}
-                  style={{
-                    transform: `translateY(${virtualRow.start}px)`,
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <div
-                      key={cell.id}
-                      className={styles.tableCell}
-                      style={{ width: cell.column.getSize() }}
+                    key={header.id}
+                    className={cx(styles.headerCell, styles.tableCell)}
+                    style={{ width: header.getSize() }}
+                  >
+                    <span
+                      data-testid={`header-col-label-${header.index}`}
+                      onClick={header.column.getToggleSortingHandler()}
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </div>
-                  ))}
-                </div>
-              );
-            })}
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </span>
+                    {header.column.getIsSorted() ? (
+                      <span
+                        onClick={header.column.getToggleSortingHandler()}
+                        className={cx(styles.sortIcon, {
+                          sortAsc: header.column.getIsSorted() === "asc",
+                        })}
+                      />
+                    ) : null}
+                    <div
+                      className={styles.resizer}
+                      onMouseDown={header.getResizeHandler()}
+                      onTouchStart={header.getResizeHandler()}
+                      onClick={(event) => event.stopPropagation()}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
-        )}
+        </div>
+        <div
+          ref={bodyRef}
+          className={cx(styles.tableBodyViewport, styles.virtualizedTableBody)}
+        >
+          {isLoading ? (
+            <TableLoading message={loadingMessage} />
+          ) : isEmptyTable ? (
+            <TableEmpty message={emptyMessage} />
+          ) : (
+            <div className={styles.tableBody}>
+              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                const row = rows[virtualRow.index] as Row<T>;
+                return (
+                  <div
+                    key={row.id}
+                    data-testid={`row-${row.id}`}
+                    data-index={virtualRow.index}
+                    ref={(node) => rowVirtualizer.measureElement(node)}
+                    onClick={onSelectChange(row)}
+                    className={cx(styles.tableRow, {
+                      tableRowSelected: row.getIsSelected(),
+                    })}
+                    style={{
+                      transform: `translateY(${virtualRow.start}px)`,
+                    }}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <div
+                        key={cell.id}
+                        className={styles.tableCell}
+                        style={{ width: cell.column.getSize() }}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
       {usePagination ? (
         <Pagination
