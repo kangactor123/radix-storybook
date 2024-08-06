@@ -47,8 +47,9 @@ const SelectOption = memo((props: SelectOptionType) => {
       <Item
         value={value}
         disabled={disabled}
-        className={cx(styles.selectOption, { selectedOption: isSelected })}
+        className={cx(styles.selectOption)}
         onClick={() => onClick(value)}
+        data-selected={isSelected}
       >
         {label}
       </Item>

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "./stories/components/button";
 import { Dialog } from "./stories/components/dialog";
 
 function App() {
@@ -14,7 +13,7 @@ function App() {
   };
   return (
     <div>
-      <Button onClick={handleClick}>Open</Button>
+      <button onClick={handleClick}>Open</button>
       <Dialog
         isOpen={isOpen}
         title="sample"
