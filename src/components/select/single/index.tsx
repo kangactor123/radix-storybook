@@ -12,7 +12,7 @@ import {
   PLACEHOLDER_MSG,
 } from "../constant";
 
-import selectArrow from "../../../../assets/image/select_arr_wg.png";
+import selectArrow from "../../../assets/image/select_arr_wg.png";
 import styles from "../styles.module.css";
 
 const cx = classnames.bind(styles);

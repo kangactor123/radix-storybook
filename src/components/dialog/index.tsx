@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 
 const cx = classNames.bind(styles);
 
-type DialogProps = {
+export type DialogProps = {
   title: string;
   children: ReactNode;
   isOpen?: boolean;

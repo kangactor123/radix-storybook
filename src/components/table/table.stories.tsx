@@ -2,9 +2,11 @@ import { Meta, StoryObj } from "@storybook/react";
 import { ColDef, Table } from ".";
 import { userEvent, within } from "@storybook/test";
 import { useMemo } from "react";
-import { useTablePagination } from "../../../hooks/useTablePagination";
-import { useTableSelection } from "../../../hooks/useTableSelection";
-import { useTableSearch } from "../../../hooks/useTableSearch";
+import {
+  useTablePagination,
+  useTableSearch,
+  useTableSelection,
+} from "../../main";
 
 type Dummy = {
   name: string;

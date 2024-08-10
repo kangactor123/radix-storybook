@@ -1,7 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Pagination } from "../../../hooks/useTablePagination";
-import { RowSelection } from "../../../hooks/useTableSelection";
+import { Pagination, RowSelection } from "../../main";
 
 export type TableUXProps = { message: string };
 export type ColDef<T> = ColumnDef<T>;
