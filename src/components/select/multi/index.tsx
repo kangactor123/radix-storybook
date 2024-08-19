@@ -10,8 +10,6 @@ import {
   LOADING_MSG,
   PLACEHOLDER_MSG,
 } from "../constant";
-
-// import selectArrow from "../../../../assets/image/select_arr_wg.png";
 import styles from "../styles.module.css";
 
 const cx = classnames.bind(styles);
@@ -157,9 +155,7 @@ export const MultiSelect = (props: MultiSelectProps) => {
             <span />
           </Icon>
         ) : null}
-        <Icon className={styles.selectIcon}>
-          {/* <img src={selectArrow} /> */}
-        </Icon>
+        <Icon className={styles.selectIcon} />
       </Trigger>
       <Portal>
         <Content
