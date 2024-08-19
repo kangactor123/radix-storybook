@@ -45,6 +45,9 @@ const basicArgs = {
 const meta = {
   title: "UI/Select/Multi",
   component: MultiSelect,
+  decorators: [
+    (story) => <div style={{ width: 400, height: 300 }}>{story()}</div>,
+  ],
 } satisfies Meta<typeof MultiSelect>;
 
 export default meta;

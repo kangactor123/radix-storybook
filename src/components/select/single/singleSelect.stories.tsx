@@ -20,6 +20,9 @@ const sampleOptions: SelectOption[] = [
 const meta = {
   title: "UI/Select/Single",
   component: Select,
+  decorators: [
+    (story) => <div style={{ width: 400, height: 300 }}>{story()}</div>,
+  ],
 } satisfies Meta<typeof Select>;
 
 export default meta;
