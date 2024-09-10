@@ -20,18 +20,18 @@ const cx = classNames.bind(styles);
 type AlertDialogActionMouseEvent = React.MouseEvent<
   HTMLButtonElement | HTMLDivElement
 >;
-type AlertDialogProps = {
+type AlertDialogProps = PropsWithChildren<{
   open: boolean;
   title: ReactNode;
   closeButtonLabel?: string;
   actionButtonLabel?: string;
   defaultOpen?: boolean;
-  onClickClose: (event?: AlertDialogActionMouseEvent) => void;
+  onClickClose: () => void;
   onClickAction?: (event?: AlertDialogActionMouseEvent) => void;
   onOpenChange?: (open: boolean) => void;
-};
+}>;
 
-const AlertDialog: React.FC<PropsWithChildren<AlertDialogProps>> = ({
+const AlertDialog: React.FC<AlertDialogProps> = ({
   title,
   open,
   defaultOpen,
@@ -49,7 +49,7 @@ const AlertDialog: React.FC<PropsWithChildren<AlertDialogProps>> = ({
       if (onClickAction instanceof Function) {
         onClickAction(event);
       }
-      onClickClose(event);
+      onClickClose();
     },
     [onClickAction, onClickClose]
   );
@@ -89,4 +89,4 @@ const AlertDialog: React.FC<PropsWithChildren<AlertDialogProps>> = ({
 };
 
 export type { AlertDialogActionMouseEvent, AlertDialogProps };
-export default AlertDialog;
+export { AlertDialog };
