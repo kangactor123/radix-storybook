@@ -41,13 +41,20 @@ const meta = {
   title: "UI/Table",
   component: Table,
   tags: ["autodocs"],
-  // decorators: [
-  //    (story) => (
-  //       <div style={{ width: '600px', height: '400px', display: 'flex', flexDirection: 'column' }}>
-  //          {story()}
-  //       </div>
-  //    ),
-  // ],
+  decorators: [
+    (story) => (
+      <div
+        style={{
+          width: "600px",
+          height: "400px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {story()}
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Table>;
 
 export default meta;
