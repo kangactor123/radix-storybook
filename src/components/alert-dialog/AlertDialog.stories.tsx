@@ -63,10 +63,8 @@ const UseAlertDialogComponent = () => {
     alert("삭제 완료됐습니다.");
   };
 
-  const onOpenChange = (open: boolean) => {
-    if (!open) {
-      alert("닫혀짐");
-    }
+  const closeAfterCallback = () => {
+    alert("close After");
   };
 
   const onClick = () => {
@@ -74,8 +72,9 @@ const UseAlertDialogComponent = () => {
       title: "로우 삭제",
       children: "삭제하시겠습니까?",
       closeButtonLabel: "취소",
+      actionButtonLabel: "삭제",
       onClickAction,
-      onOpenChange,
+      closeAfterCallback,
     });
   };
   return <button onClick={onClick}>Click here!</button>;

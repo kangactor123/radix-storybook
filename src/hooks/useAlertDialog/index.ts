@@ -5,7 +5,9 @@ import {
   AlertDialogContextProps,
 } from "../../provider/alert-dialog.provider";
 
-type OpenAlertDialogProps = Omit<AlertDialogProps, "open" | "onClickClose">;
+type OpenAlertDialogProps = Omit<AlertDialogProps, "open" | "onClickClose"> & {
+  closeAfterCallback?: () => void;
+};
 type UseAlertDialogResult = {
   open: (props: OpenAlertDialogProps) => void;
   close: () => void;
@@ -20,10 +22,17 @@ const useAlertDialog = (): UseAlertDialogResult => {
 
   const openDialog = useCallback(
     (props: OpenAlertDialogProps) => {
+      const onClickClose = () => {
+        closeDialog();
+
+        if (props?.closeAfterCallback instanceof Function) {
+          props.closeAfterCallback();
+        }
+      };
       alertContext.open({
         ...props,
         open: true,
-        onClickClose: closeDialog,
+        onClickClose,
       });
     },
     [alertContext, closeDialog]
