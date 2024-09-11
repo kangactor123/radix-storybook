@@ -20,6 +20,17 @@ export type {
   RowSelection,
 } from "./hooks/useTableSelection";
 
+export { useAlertDialog } from "./hooks/useAlertDialog";
+export type { OpenAlertDialogProps } from "./hooks/useAlertDialog";
+
+// Providers
+export {
+  AlertDialogProvider,
+  AlertDialogContext,
+} from "./provider/alert-dialog.provider";
+export type { AlertDialogContextProps } from "./provider/alert-dialog.provider";
+
+// Components
 export { Dialog } from "./components/dialog";
 export type { DialogProps } from "./components/dialog";
 
@@ -32,3 +43,6 @@ export type {
   SelectProps,
   MultiSelectProps,
 } from "./components/select";
+
+export { AlertDialog } from "./components/alert-dialog";
+export type { AlertDialogProps } from "./components/alert-dialog";
