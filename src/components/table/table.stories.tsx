@@ -11,26 +11,37 @@ import {
 type Dummy = {
   name: string;
   age: number;
+  goalCount: number;
+  assistCount: number;
+  salary: number;
 };
-
 const data: Dummy[] = [
   {
     name: "알리송",
     age: 32,
+    goalCount: 0,
+    assistCount: 0,
+    salary: 140000,
   },
-  { name: "로버트슨", age: 29 },
-  { name: "반다이크", age: 31 },
-  { name: "코나테", age: 26 },
-  { name: "아놀드", age: 26 },
-  { name: "맥알리스터", age: 26 },
-  { name: "앤도", age: 31 },
-  { name: "소보슬라이", age: 23 },
-  { name: "루이스디아즈", age: 27 },
-  { name: "누녜스", age: 24 },
-  { name: "살라", age: 31 },
-  { name: "조고메즈", age: 27 },
-  { name: "엘리엇", age: 22 },
-  { name: "커티스존스", age: 23 },
+  { name: "로버트슨", age: 29, goalCount: 0, assistCount: 1, salary: 120000 },
+  { name: "반다이크", age: 31, goalCount: 0, assistCount: 1, salary: 200000 },
+  { name: "코나테", age: 26, goalCount: 0, assistCount: 0, salary: 120000 },
+  { name: "아놀드", age: 26, goalCount: 0, assistCount: 4, salary: 140000 },
+  { name: "맥알리스터", age: 26, goalCount: 0, assistCount: 2, salary: 120000 },
+  { name: "앤도", age: 31, goalCount: 0, assistCount: 0, salary: 80000 },
+  { name: "소보슬라이", age: 23, goalCount: 0, assistCount: 2, salary: 100000 },
+  {
+    name: "루이스디아즈",
+    age: 27,
+    goalCount: 3,
+    assistCount: 0,
+    salary: 120000,
+  },
+  { name: "누녜스", age: 24, goalCount: 0, assistCount: 0, salary: 120000 },
+  { name: "살라", age: 31, goalCount: 3, assistCount: 3, salary: 180000 },
+  { name: "조고메즈", age: 27, goalCount: 0, assistCount: 0, salary: 120000 },
+  { name: "엘리엇", age: 22, goalCount: 0, assistCount: 0, salary: 80000 },
+  { name: "커티스존스", age: 23, goalCount: 0, assistCount: 0, salary: 80000 },
 ];
 
 function sleep(ms: number) {
@@ -66,9 +77,25 @@ const basicColumns: ColDef<Dummy>[] = [
     header: "이름",
     accessorFn: (row) => row.name,
   },
-  { id: "age", header: "나이", accessorFn: (row) => row.age },
+  { id: "age", header: "나이", accessorFn: (row) => row.age, size: 50 },
+  {
+    id: "goalCount",
+    header: "득점",
+    accessorFn: (row) => row.goalCount,
+    size: 50,
+  },
+  {
+    id: "assistCount",
+    header: "어시스트",
+    accessorFn: (row) => row.assistCount,
+    size: 50,
+  },
+  {
+    id: "salary",
+    header: "주급",
+    accessorFn: (row) => `${row.salary.toLocaleString()} 파운드`,
+  },
 ];
-
 const basicArgs = {
   data,
   columns: basicColumns as any,
