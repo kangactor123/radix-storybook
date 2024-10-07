@@ -39,5 +39,6 @@ yarn storybook
 - Table
 - Input
 - Dialog
+- Title
 
 각 컴포넌트의 사용법과 props는 Storybook 혹은 소스 코드에서 확인할 수 있습니다.
