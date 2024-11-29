@@ -24,6 +24,7 @@ export const Switch = ({
       )}
       <RadixSwitch.Root
         id={`switch-thumb-${label}`}
+        data-testid={`switch-thumb-${label}`}
         className={styles.switchRoot}
         {...switchProps}
       >
