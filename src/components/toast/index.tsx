@@ -1,66 +1,87 @@
-import type { ComponentProps, ReactNode } from "react";
-import {
-  Provider,
-  Root,
-  Title,
-  Description,
-  Close,
-  Viewport,
-} from "@radix-ui/react-toast";
-
-import { Cross2Icon } from "@radix-ui/react-icons";
-
+import * as ToastMessage from "@radix-ui/react-toast";
 import classNames from "classnames/bind";
-
-import styles from "./styles.module.css";
+import styles from "./styles.module.css"; // ✅ css module 파일로 변경
 
 const cx = classNames.bind(styles);
 
-const DEFAULT_DURATION = 5000;
+export type ToastRootProps = React.ComponentProps<typeof ToastMessage.Root>;
 
-type RootProps = ComponentProps<typeof Root>;
-type ToastProps = {
-  open: boolean;
-  description: ReactNode;
-  className?: string;
+export type ToastProps = {
+  isOpen: boolean;
+  children: React.ReactNode;
+  status?: "positive" | "issue" | "negative" | "neutral";
+  position?:
+    | "top"
+    | "top-left"
+    | "top-right"
+    | "bottom"
+    | "bottom-left"
+    | "bottom-right";
+  duration?: number;
   title?: string;
-  onOpenChange: (open: boolean) => void;
-} & Omit<RootProps, "open">;
+  showCloseButton?: boolean;
+  className?: string;
+  onOpenChange(open: boolean): void;
+} & Omit<ToastRootProps, "open">;
 
-const Toast: React.FC<ToastProps> = ({
-  open,
-  description,
+export const Toast = ({
+  isOpen,
+  children,
+  position = "bottom-right",
+  duration = 4000,
   title,
+  status = "positive",
+  showCloseButton = true,
   className,
-  duration = DEFAULT_DURATION,
   onOpenChange,
   ...rootProps
-}) => {
+}: ToastProps) => {
+  // ✅ status를 CSS Module 클래스 명으로 매핑
+  const statusClass = {
+    positive: styles.toastPositive,
+    issue: styles.toastIssue,
+    negative: styles.toastNegative,
+    neutral: styles.toastNeutral,
+  }[status];
+
   return (
-    <Provider>
-      <Root
-        {...rootProps}
-        open={open}
-        className={cx(styles.root, className)}
-        onOpenChange={onOpenChange}
-      >
-        <div className={styles.container}>
-          {title ? (
-            <Title className={styles.title} aria-label="title">
+    <ToastMessage.Root
+      className={cx(styles.toastRoot, statusClass, className)}
+      data-position={position}
+      data-testid="toast"
+      duration={duration}
+      open={isOpen}
+      onOpenChange={onOpenChange}
+      {...rootProps}
+    >
+      <div className={cx(styles.contentWrapper)}>
+        {status ? (
+          <div aria-label="icon" className={cx(styles.iconWrapper)}>
+            <span />
+          </div>
+        ) : null}
+        <div>
+          {title && (
+            <ToastMessage.Title aria-label="title" className={cx(styles.title)}>
               {title}
-            </Title>
-          ) : null}
-          <Description className={styles.description} aria-label="description">
-            {description}
-          </Description>
+            </ToastMessage.Title>
+          )}
+          <ToastMessage.Description
+            aria-label="description"
+            className={cx(styles.description)}
+          >
+            {children}
+          </ToastMessage.Description>
         </div>
-        <Close aria-label="close-button" className={styles.closeButton}>
-          <Cross2Icon aria-hidden />
-        </Close>
-      </Root>
-      <Viewport className={styles.viewport} />
-    </Provider>
+      </div>
+
+      {showCloseButton && (
+        <ToastMessage.Close
+          aria-label="close"
+          className={cx(styles.closeButton)}
+          data-testid="close-button"
+        />
+      )}
+    </ToastMessage.Root>
   );
 };
-
-export { Toast };
